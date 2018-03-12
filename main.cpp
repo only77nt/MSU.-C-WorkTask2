@@ -4,6 +4,7 @@
 #include <string.h>
 #include <ctime>
 #include <unistd.h> 
+#include <string>
 #include "Date.h"
 using namespace std;
 
@@ -13,11 +14,12 @@ char buffer2[20];
 char buffer1[20];
 time_t rawtime;
 struct tm * timeinfo;
-int input;
+int input,i=0;
 Interv InRes;
 Now MomRes;
 while(1)
 {
+try{
 sleep(1); /*Можно убрать*/
 printf("\nВводите дату в формате yyyy-mm-dd hh:mm:ss\n"); /*Между датой и временем пробел*/
 printf("Выберете пункт, который хотите выполнить: \n");
@@ -34,11 +36,11 @@ switch(input){
 case 1: {	/*Int + Int = Int*/
 			clean_stdin();
 			printf("Введите первый интервал:\n");
-			fgets(buffer1,20,stdin);
+			cin >> buffer1;
 			Interv Inter(buffer1); /*Работает*/
 			clean_stdin();
 			printf("Введите второй интервал: \n");
-			fgets(buffer2,20,stdin);
+			cin >> buffer2;
 			Interv In1(buffer2);
 			InRes=Inter+In1;
 			printf("Результат: \n");
@@ -50,11 +52,11 @@ case 1: {	/*Int + Int = Int*/
 case 2: {	/*Int - Int = Int*/
 			clean_stdin();
 			printf("Введите первый интервал:\n");
-			fgets(buffer1,20,stdin);
+			cin >> buffer1;
 			Interv Inter(buffer1); /*Работает*/
 			clean_stdin();
 			printf("Введите второй интервал: \n");
-			fgets(buffer2,20,stdin);
+			cin >> buffer2;
 			Interv In1(buffer2);
 			InRes=Inter-In1;
 			printf("Результат: \n");
@@ -66,11 +68,11 @@ case 2: {	/*Int - Int = Int*/
 case 3: {	/*Mom + Int = Mom*/
 			clean_stdin();
 			printf("Введите момент: \n");
-			fgets(buffer1,20,stdin);
+			cin >> buffer1;
 			Now Moment(buffer1);
 			clean_stdin();
 			printf("Введите интервал:\n");
-			fgets(buffer2,20,stdin);
+			cin >> buffer2;
 			Interv Inter(buffer2); /*Работает*/
 			MomRes=Moment+Inter;
 			printf("Результат: \n");
@@ -82,11 +84,11 @@ case 3: {	/*Mom + Int = Mom*/
 case 4: {	/*Mom - Int = Mom*/
 			clean_stdin();
 			printf("Введите момент: \n");
-			fgets(buffer1,20,stdin);
+			cin >> buffer1;
 			Now Moment(buffer1);
 			clean_stdin();
 			printf("Введите интервал:\n");
-			fgets(buffer2,20,stdin);
+			cin >> buffer2;
 			Interv Inter(buffer2); /*Работает*/
 			MomRes=Moment-Inter;
 			printf("Результат: \n");
@@ -98,11 +100,11 @@ case 4: {	/*Mom - Int = Mom*/
 case 5: {   /*Mom-Mom=Int*/
 			clean_stdin();
 			printf("Введите первый момент: \n");
-			fgets(buffer1,20,stdin);
+			cin >> buffer1;
 			Now Moment1(buffer1);
 			clean_stdin();
 			printf("Введите второй момент:\n");
-			fgets(buffer2,20,stdin);
+			cin >> buffer2;
 			Now Moment2(buffer2);
 			/*Здесь будет функция Mom-Mom=Int*/
 			printf("Результат: \n");
@@ -130,6 +132,8 @@ case 8: {   /*Exit*/
 			exit(0);
 		}
 }
+}
+catch(Excpt& e) {cout << e.msg << endl;}
 }
 return 0;
 }

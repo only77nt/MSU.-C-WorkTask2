@@ -3,16 +3,22 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctime>
+#include <string>
 #include "Date.h"
 using namespace std;
+
+Excpt::Excpt(const char* Mes) {strcpy(this->msg,Mes);};
 
 void Check(int *y,int *m, int *d, int *h, int *min, int *s){ /*Функция проверки даты и времени на соответсвие + преобразование*/
 int y1=*y,m1=*m,d1=*d,h1=*h,min1=*min,s1=*s;
 try{
 	if(y1<0 || m1<0 || d1<0 || h1<0 || min1<0 || s1<0)
-		throw("Error!");
+	{
+		Excpt A("Error!");
+		throw A;
 	}
-catch(const char* str) {printf("%s\n",str); exit(2);}
+	}
+catch(Excpt& e) {throw;}
 if(s1>=60)
 {
 	min1++;
@@ -52,7 +58,7 @@ return;
 int Date(char *str, int *k) /*Функция разбора строки*/
 {
 int res=0,j=*k;
-while(str[j]!=':' && str[j]!=' ' && str[j]!='\0' && str[j]!='-' && str[j]!='\n')
+while(str[j]!=':' && str[j]!='_' && str[j]!='\0' && str[j]!='-' && str[j]!='\n')
 {
 	res*=10;
 	res+=str[j]-'0';
@@ -317,9 +323,12 @@ try {
 			this->day=d;
 		}
 		else
-			throw("Wrong Data!\n");
+		{
+			Excpt B("Data error!");
+			throw B;
+		}
 	}
-catch(const char *str) {printf("%s",str); exit(1);}	
+catch(Excpt& e) {throw;}
 }
 
 void Now::TimeOne(int h=0, int m=0, int s=0){ /*Обработка времени*/
@@ -331,9 +340,12 @@ try {
 			this->sec=s;
 		}
 		else
-			throw("Wrong Time!\n");
+		{
+			Excpt C("Time error!");
+			throw C;
+		}
 	}
-catch(const char *str) {printf("%s",str); exit(1);}
+catch(Excpt& e) {throw;}
 }
 
 Now& Now::operator - (const Interv& NewInt) { /*Mom-Int=Mom*/

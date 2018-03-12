@@ -1,8 +1,18 @@
+#include <iostream>
+#include <cstdio>
+#include <string>
+
 void Check(int *,int *, int *, int *, int *, int *);
 void clean_stdin(void);
 int Date(char *, int *);
 bool isValidDate(int, int, int);
 bool isValidTime(int, int, int);
+
+class Excpt: public std::exception {
+public:
+char msg[128];
+Excpt(const char*);
+};
 
 class Interv { /*КЛАСС ИНТЕРВАЛ*/
 private:
