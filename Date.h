@@ -20,6 +20,7 @@ friend int Date(char *, int *);
 friend bool isValidDate(int, int, int);
 friend bool isValidTime(int, int, int);
 friend void Check(int, int, int, int, int, int);
+friend std::ostream& operator << (std::ostream&, const Interv&);
 public:
 int year,month,day,hour,min,sec;
 
@@ -29,7 +30,6 @@ Interv& operator + (const Interv&);
 Interv& operator - (const Interv&);
 void DateTwo(int, int, int);
 void TimeTwo(int, int, int);
-void print() const;
 void set(int,int,int,int,int,int);
 };
 
@@ -51,4 +51,4 @@ Now& operator - (const Interv&);
 void print() const;
 };
 
-void Minus(const Now&, const Now&,int*,int*,int*,int*,int*,int*);
+Interv& Minus(const Now&, const Now&);

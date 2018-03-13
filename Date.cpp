@@ -89,7 +89,7 @@ bool isValidTime(int h, int min, int s) { /*Функция проверки пр
 
 Interv::Interv(){}; /*Конструктор умолчания*/
 
-void Interv::set(int y=0,int m=0,int d=0,int h=0,int min1=0,int s=0){
+void Interv::set(int y=0,int m=0,int d=0,int h=0,int min1=0,int s=0) { /*private*/
 this->year=y;
 this->month=m;
 this->day=d;
@@ -259,42 +259,43 @@ int swap;
 return *this;
 }
 
-void Interv::DateTwo(int y=0, int m=0, int d=0){ /*Заносим дату в поля*/
+std::ostream& operator << (std::ostream &s, const Interv& NewInt) { /*Печать интервала*/
+		s << NewInt.year << '-';
+		if(NewInt.month>=10)
+			s << NewInt.month << '-';
+		else
+			s << '0' << NewInt.month << '-';
+		if(NewInt.day>=10)
+			s << NewInt.day << ' ';
+		else
+			s << '0' << NewInt.day << ' ';
+		if(NewInt.hour>=10)
+			s << NewInt.hour << ':';
+		else
+			s << '0' << NewInt.hour << ':';
+		if(NewInt.min>=10)
+			s << NewInt.min << ':';
+		else
+			s << '0' << NewInt.min << ':';
+		if(NewInt.sec>=10)
+			s << NewInt.sec;
+		else
+			s << '0' << NewInt.sec;
+		s << endl;
+return s;
+}
+
+void Interv::DateTwo(int y=0, int m=0, int d=0){ /*Заносим дату в поля*/ /*private*/
 	this->year=y;
 	this->month=m;
 	this->day=d;
 }
 
-void Interv::TimeTwo(int h=0, int m=0, int s=0){ /*Заносим время в поля*/
+void Interv::TimeTwo(int h=0, int m=0, int s=0){ /*Заносим время в поля*/ /*private*/
 	this->hour=h;
 	this->min=m;
 	this->sec=s;
-}
-
-void Interv::print() const { /*Красивая печать*/
-		cout << year << '-';
-		if(month>=10)
-			cout << month << '-';
-		else
-			cout << '0' << month << '-';
-		if(day>=10)
-			cout << day << ' ';
-		else
-			cout << '0' << day << ' ';
-		if(hour>=10)
-			cout << hour << ':';
-		else
-			cout << '0' << hour << ':';
-		if(min>=10)
-			cout << min << ':';
-		else
-			cout << '0' << min << ':';
-		if(sec>=10)
-			cout << sec;
-		else
-			cout << '0' << sec;
-		cout << endl;
-	}	
+}	
 
 Now::Now(){};
 
@@ -323,7 +324,7 @@ Now& Now::operator + (const Interv& NewInt) { /*Mom+Int=Mom*/
 	return *this;
 }
 
-void Now::DateOne(int y=0, int m=0, int d=0){ /*Обработка даты*/
+void Now::DateOne(int y=0, int m=0, int d=0){ /*Обработка даты*/ /*private*/
 try {
 		if (isValidDate(y, m, d))
 		{
@@ -340,7 +341,7 @@ try {
 catch(Excpt& e) {throw;}
 }
 
-void Now::TimeOne(int h=0, int m=0, int s=0){ /*Обработка времени*/
+void Now::TimeOne(int h=0, int m=0, int s=0){ /*Обработка времени*/ /*private*/
 try {
 		if (isValidTime(h, m, s))
 		{
@@ -483,7 +484,7 @@ int swap;
 return *this;
 }
 
-void Now::print() const { /*Красивая печать даты*/
+void Now::print() const { /*Красивая печать даты*/ /*const*/
 		cout << year << '-';
 		if(month>=10)
 			cout << month << '-';
@@ -508,7 +509,7 @@ void Now::print() const { /*Красивая печать даты*/
 		cout << endl;
 	}
 
-void Minus(const Now& Mom1, const Now& Mom2,int *y,int *m,int *d,int *h,int *min,int *s){
+Interv& Minus(const Now& Mom1, const Now& Mom2){
 int y1=Mom1.year,m1=Mom1.month,d1=Mom1.day,h1=Mom1.hour,min1=Mom1.min,s1=Mom1.sec;
 int y2=Mom2.year,m2=Mom2.month,d2=Mom2.day,h2=Mom2.hour,min2=Mom2.min,s2=Mom2.sec; 
 int swap;
@@ -632,8 +633,8 @@ int swap;
 			min1--;
 			s1-=s2;
 		}
-*y=y1; *m=m1; *d=d1; *h=h1; *min=min1; *s=s1;
-return;
+static Interv IntRes;
+IntRes.set(y1,m1,d1,h1,min1,s1);
+return IntRes;
 }
-
 	
