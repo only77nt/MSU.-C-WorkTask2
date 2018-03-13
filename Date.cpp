@@ -89,6 +89,15 @@ bool isValidTime(int h, int min, int s) { /*Функция проверки пр
 
 Interv::Interv(){}; /*Конструктор умолчания*/
 
+void Interv::set(int y=0,int m=0,int d=0,int h=0,int min1=0,int s=0){
+this->year=y;
+this->month=m;
+this->day=d;
+this->hour=h;
+this->min=min1;
+this->sec=s;
+}
+
 Interv::Interv(char *buffer1){ /*Конструктор преобразования*/
 int y,m,d,h,min,s;
 int j=0;
@@ -497,4 +506,134 @@ void Now::print() const { /*Красивая печать даты*/
 		else
 			cout << '0' << sec;
 		cout << endl;
-	}	
+	}
+
+void Minus(const Now& Mom1, const Now& Mom2,int *y,int *m,int *d,int *h,int *min,int *s){
+int y1=Mom1.year,m1=Mom1.month,d1=Mom1.day,h1=Mom1.hour,min1=Mom1.min,s1=Mom1.sec;
+int y2=Mom2.year,m2=Mom2.month,d2=Mom2.day,h2=Mom2.hour,min2=Mom2.min,s2=Mom2.sec; 
+int swap;
+	if(y1>=y2)
+		y1-=y2;
+	else
+	{
+		swap=y1;
+		y1=y2;
+		y2=swap;
+	
+		y1-=y2;
+		
+		swap=m1;
+		m1=m2;
+		m2=swap;
+
+		swap=d1;
+		d1=d2;
+		d2=swap;
+
+		swap=h1;
+		h1=h2;
+		h2=swap;
+
+		swap=min1;
+		min1=min2;
+		min2=swap;
+
+		swap=s1;
+		s1=s2;
+		s2=swap;
+	}
+		if(m1>=m2)
+			m1-=m2; 
+		else
+		{
+			m1+=12;
+			y1--;
+			m1-=m2;
+		}
+		if(d1>=d2)
+			d1-=d2;
+		else
+		{
+			d1+=30;
+			if(m1==0)
+			{
+				m1--;
+				m1=12;
+			}
+			m1--;
+			d1-=d2;
+		}
+		if(h1>=h2)
+			h1-=h2;
+		else
+		{
+			h1+=24;
+			if(d1==0)
+			{
+				if(m1==0)
+				{
+					m1=12;
+					m1--;
+				}
+				m1--;
+				d1=30;
+			}
+			d1--;
+			h1-=h2;
+		}
+		if(min1>=min2)
+			min1-=min2;
+		else
+		{
+			min1+=60;
+			if(h1==0)
+			{
+				if(d1==0)
+				{
+					if(m1==0)
+					{
+						m1=12;
+						m1--;
+					}
+					m1--;
+					d1=30;
+				}
+				d1--;				
+				h1=24;
+			}
+			h1--;
+			min1-=min2;
+		}
+		if(s1>=s2)
+			s1-=s2;
+		else
+		{
+			s1+=60;
+			if(min1==0)
+			{
+				if(h1==0)
+				{
+					if(d1==0)
+					{
+						if(m1==0)
+						{
+							m1=12;
+							m1--;
+						}
+						m1--;
+						d1=30;
+					}
+					d1--;				
+					h1=24;
+				}
+				h1--;
+				min1=60;
+			}
+			min1--;
+			s1-=s2;
+		}
+*y=y1; *m=m1; *d=d1; *h=h1; *min=min1; *s=s1;
+return;
+}
+
+	

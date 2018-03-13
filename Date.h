@@ -30,6 +30,7 @@ Interv& operator - (const Interv&);
 void DateTwo(int, int, int);
 void TimeTwo(int, int, int);
 void print() const;
+void set(int,int,int,int,int,int);
 };
 
 class Now{ /*КЛАСС МОМЕНТ*/
@@ -49,3 +50,5 @@ void TimeOne(int, int, int);
 Now& operator - (const Interv&);
 void print() const;
 };
+
+void Minus(const Now&, const Now&,int*,int*,int*,int*,int*,int*);

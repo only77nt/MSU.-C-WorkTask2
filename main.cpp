@@ -15,13 +15,14 @@ char buffer1[20];
 time_t rawtime;
 struct tm * timeinfo;
 int input,i=0;
+int y=0,m=0,d=0,h=0,min=0,s=0;
 Interv InRes;
 Now MomRes;
 while(1)
 {
 try{
 sleep(1); /*Можно убрать*/
-printf("\nВводите дату в формате yyyy-mm-dd hh:mm:ss\n"); /*Между датой и временем пробел*/
+printf("\nВводите дату в формате yyyy-mm-dd_hh:mm:ss\n"); /*Между датой и временем пробел*/
 printf("Выберете пункт, который хотите выполнить: \n");
 printf("1. Int + Int = Int\n");
 printf("2. Int - Int = Int\n");
@@ -106,9 +107,11 @@ case 5: {   /*Mom-Mom=Int*/
 			printf("Введите второй момент:\n");
 			cin >> buffer2;
 			Now Moment2(buffer2);
-			/*Здесь будет функция Mom-Mom=Int*/
+			Minus(Moment1,Moment2,&y,&m,&d,&h,&min,&s);
+			printf("%d\n",y);
+			InRes.set(y,m,d,h,min,s);
 			printf("Результат: \n");
-			/*Здесь будет печать результата*/
+			InRes.print();
 			memset(&buffer1, 0, 20);
 			memset(&buffer2, 0, 20);
 			break;
