@@ -125,140 +125,146 @@ TimeTwo(h,min,s);
 }
 
 Interv& Interv::operator + (const Interv& NewInt) { /*Int+Int=Int*/
-	year+=NewInt.year;
-	month+=NewInt.month; 
-	day+=NewInt.day; 
-	hour+=NewInt.hour; 
-	min+=NewInt.min; 
-	sec+=NewInt.sec; 
-	Check(&year,&month,&day,&hour,&min,&sec);
-	return *this;
+int y=year,m=month,d=day,h=hour,min1=min,s=sec;
+	y+=NewInt.year;
+	m+=NewInt.month; 
+	d+=NewInt.day; 
+	h+=NewInt.hour; 
+	min1+=NewInt.min; 
+	s+=NewInt.sec; 
+	Check(&y,&m,&d,&h,&min1,&s);
+	static Interv IntRes;
+	IntRes.set(y,m,d,h,min1,s);
+	return IntRes;
 }
 
 Interv& Interv::operator - (const Interv& NewInt) { /*Int-Int=Int*/
-int y1=NewInt.year,m1=NewInt.month,d1=NewInt.day,h1=NewInt.hour,min1=NewInt.min,s1=NewInt.sec; 
+int y1=year,m1=month,d1=day,h1=hour,min1=min,s1=sec;
+int y2=NewInt.year,m2=NewInt.month,d2=NewInt.day,h2=NewInt.hour,min2=NewInt.min,s2=NewInt.sec; 
 int swap;
-	if(year>=y1)
-		year-=y1;
+	if(y1>=y2)
+		y1-=y2;
 	else
 	{
-		swap=year;
-		year=y1;
-		y1=swap;
+		swap=y1;
+		y1=y2;
+		y2=swap;
 	
-		year-=y1;
+		y1-=y2;
 		
-		swap=month;
-		month=m1;
-		m1=swap;
+		swap=m1;
+		m1=m2;
+		m2=swap;
 
-		swap=day;
-		day=d1;
-		d1=swap;
+		swap=d1;
+		d1=d2;
+		d2=swap;
 
-		swap=hour;
-		hour=h1;
-		h1=swap;
+		swap=h1;
+		h1=h2;
+		h2=swap;
 
-		swap=min;
-		min=min1;
-		min1=swap;
+		swap=min1;
+		min1=min2;
+		min2=swap;
 
-		swap=sec;
-		sec=s1;
-		s1=swap;
+		swap=s1;
+		s1=s2;
+		s2=swap;
 	}
-		if(month>=m1)
-			month-=m1; 
+		if(m1>=m2)
+			m1-=m2; 
 		else
 		{
-			month+=12;
-			year--;
-			month-=m1;
+			m1+=12;
+			y1--;
+			m1-=m2;
 		}
-		if(day>=d1)
-			day-=d1;
+		if(d1>=d2)
+			d1-=d2;
 		else
 		{
-			day+=30;
-			if(month==0)
+			d1+=30;
+			if(m1==0)
 			{
-				year--;
-				month=12;
+				m1--;
+				m1=12;
 			}
-			month--;
-			day-=d1;
+			m1--;
+			d1-=d2;
 		}
-		if(hour>=h1)
-			hour-=h1;
+		if(h1>=h2)
+			h1-=h2;
 		else
 		{
-			hour+=24;
-			if(day==0)
+			h1+=24;
+			if(d1==0)
 			{
-				if(month==0)
+				if(m1==0)
 				{
-					month=12;
-					year--;
+					m1=12;
+					m1--;
 				}
-				month--;
-				day=30;
+				m1--;
+				d1=30;
 			}
-			day--;
-			hour-=h1;
+			d1--;
+			h1-=h2;
 		}
-		if(min>=min1)
-			min-=min1;
+		if(min1>=min2)
+			min1-=min2;
 		else
 		{
-			min+=60;
-			if(hour==0)
+			min1+=60;
+			if(h1==0)
 			{
-				if(day==0)
+				if(d1==0)
 				{
-					if(month==0)
+					if(m1==0)
 					{
-						month=12;
-						year--;
+						m1=12;
+						m1--;
 					}
-					month--;
-					day=30;
+					m1--;
+					d1=30;
 				}
-				day--;				
-				hour=24;
+				d1--;				
+				h1=24;
 			}
-			hour--;
-			min-=min1;
+			h1--;
+			min1-=min2;
 		}
-		if(sec>=s1)
-			sec-=s1;
+		if(s1>=s2)
+			s1-=s2;
 		else
 		{
-			sec+=60;
-			if(min==0)
+			s1+=60;
+			if(min1==0)
 			{
-				if(hour==0)
+				if(h1==0)
 				{
-					if(day==0)
+					if(d1==0)
 					{
-						if(month==0)
+						if(m1==0)
 						{
-							month=12;
-							year--;
+							m1=12;
+							m1--;
 						}
-						month--;
-						day=30;
+						m1--;
+						d1=30;
 					}
-					day--;				
-					hour=24;
+					d1--;				
+					h1=24;
 				}
-				hour--;
-				min=60;
+				h1--;
+				min1=60;
 			}
-			min--;
-			sec-=s1;
+			min1--;
+			s1-=s2;
 		}
-return *this;
+static Interv IntRes; /*Делаем объект видимым во всей программе*/
+IntRes.set(y1,m1,d1,h1,min1,s1); /*Заполняем поля объекта*/
+return IntRes;
 }
 
 std::ostream& operator << (std::ostream &s, const Interv& NewInt) { /*Печать интервала*/
@@ -314,15 +320,27 @@ DateOne(y,m,d); /*Проверяем поля*/
 TimeOne(h,min,s);
 }
 
+void Now::set(int y=0,int m=0,int d=0,int h=0,int min1=0,int s=0) {
+this->year=y;
+this->month=m;
+this->day=d;
+this->hour=h;
+this->min=min1;
+this->sec=s;
+}
+
 Now& Now::operator + (const Interv& NewInt) { /*Mom+Int=Mom*/
-	year+=NewInt.year;
-	month+=NewInt.month; 
-	day+=NewInt.day; 
-	hour+=NewInt.hour; 
-	min+=NewInt.min; 
-	sec+=NewInt.sec; 
-	Check(&year,&month,&day,&hour,&min,&sec);
-	return *this;
+int y=year,m=month,d=day,h=hour,min1=min,s=sec;
+	y+=NewInt.year;
+	m+=NewInt.month; 
+	d+=NewInt.day; 
+	h+=NewInt.hour; 
+	min1+=NewInt.min; 
+	s+=NewInt.sec; 
+	Check(&y,&m,&d,&h,&min1,&s);
+	static Now MomRes;
+	MomRes.set(y,m,d,h,min1,s);
+	return MomRes;
 }
 
 void Now::DateOne(int y=0, int m=0, int d=0){ /*Обработка даты*/
@@ -360,129 +378,132 @@ catch(Excpt& e) {throw;}
 }
 
 Now& Now::operator - (const Interv& NewInt) { /*Mom-Int=Mom*/
-int y1=NewInt.year,m1=NewInt.month,d1=NewInt.day,h1=NewInt.hour,min1=NewInt.min,s1=NewInt.sec; 
+int y1=year,m1=month,d1=day,h1=hour,min1=min,s1=sec;
+int y2=NewInt.year,m2=NewInt.month,d2=NewInt.day,h2=NewInt.hour,min2=NewInt.min,s2=NewInt.sec; 
 int swap;
-	if(year>=y1)
-		year-=y1;
+	if(y1>=y2)
+		y1-=y2;
 	else
 	{
-		swap=year;
-		year=y1;
-		y1=swap;
+		swap=y1;
+		y1=y2;
+		y2=swap;
 	
-		year-=y1;
+		y1-=y2;
 		
-		swap=month;
-		month=m1;
-		m1=swap;
+		swap=m1;
+		m1=m2;
+		m2=swap;
 
-		swap=day;
-		day=d1;
-		d1=swap;
+		swap=d1;
+		d1=d2;
+		d2=swap;
 
-		swap=hour;
-		hour=h1;
-		h1=swap;
+		swap=h1;
+		h1=h2;
+		h2=swap;
 
-		swap=min;
-		min=min1;
-		min1=swap;
+		swap=min1;
+		min1=min2;
+		min2=swap;
 
-		swap=sec;
-		sec=s1;
-		s1=swap;
+		swap=s1;
+		s1=s2;
+		s2=swap;
 	}
-		if(month>=m1)
-			month-=m1; 
+		if(m1>=m2)
+			m1-=m2; 
 		else
 		{
-			month+=12;
-			year--;
-			month-=m1;
+			m1+=12;
+			y1--;
+			m1-=m2;
 		}
-		if(day>=d1)
-			day-=d1;
+		if(d1>=d2)
+			d1-=d2;
 		else
 		{
-			day+=30;
-			if(month==0)
+			d1+=30;
+			if(m1==0)
 			{
-				year--;
-				month=12;
+				m1--;
+				m1=12;
 			}
-			month--;
-			day-=d1;
+			m1--;
+			d1-=d2;
 		}
-		if(hour>=h1)
-			hour-=h1;
+		if(h1>=h2)
+			h1-=h2;
 		else
 		{
-			hour+=24;
-			if(day==0)
+			h1+=24;
+			if(d1==0)
 			{
-				if(month==0)
+				if(m1==0)
 				{
-					month=12;
-					year--;
+					m1=12;
+					m1--;
 				}
-				month--;
-				day=30;
+				m1--;
+				d1=30;
 			}
-			day--;
-			hour-=h1;
+			d1--;
+			h1-=h2;
 		}
-		if(min>=min1)
-			min-=min1;
+		if(min1>=min2)
+			min1-=min2;
 		else
 		{
-			min+=60;
-			if(hour==0)
+			min1+=60;
+			if(h1==0)
 			{
-				if(day==0)
+				if(d1==0)
 				{
-					if(month==0)
+					if(m1==0)
 					{
-						month=12;
-						year--;
+						m1=12;
+						m1--;
 					}
-					month--;
-					day=30;
+					m1--;
+					d1=30;
 				}
-				day--;				
-				hour=24;
+				d1--;				
+				h1=24;
 			}
-			hour--;
-			min-=min1;
+			h1--;
+			min1-=min2;
 		}
-		if(sec>=s1)
-			sec-=s1;
+		if(s1>=s2)
+			s1-=s2;
 		else
 		{
-			sec+=60;
-			if(min==0)
+			s1+=60;
+			if(min1==0)
 			{
-				if(hour==0)
+				if(h1==0)
 				{
-					if(day==0)
+					if(d1==0)
 					{
-						if(month==0)
+						if(m1==0)
 						{
-							month=12;
-							year--;
+							m1=12;
+							m1--;
 						}
-						month--;
-						day=30;
+						m1--;
+						d1=30;
 					}
-					day--;				
-					hour=24;
+					d1--;				
+					h1=24;
 				}
-				hour--;
-				min=60;
+				h1--;
+				min1=60;
 			}
-			min--;
-			sec-=s1;
+			min1--;
+			s1-=s2;
 		}
-return *this;
+static Now MomRes; /*Делаем объект видимым во всей программе*/
+MomRes.set(y1,m1,d1,h1,min1,s1); /*Заполняем поля объекта*/
+return MomRes;
 }
 
 void Now::print() const { /*Красивая печать даты*/ /*const*/

@@ -134,7 +134,7 @@ case 8: {   /*Exit*/
 		}
 }
 }
-catch(Excpt& e) {cout << e.msg << endl;} /*Отлавливаем юсключение и пишем ошибку*/
+catch(Excpt& e) {cout << e.msg << endl;} /*Отлавливаем исключение и пишем ошибку*/
 }
 return 0;
 }

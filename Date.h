@@ -44,6 +44,7 @@ int year,month,day,hour,min,sec;
 
 Now();
 Now(char *);
+void set(int,int,int,int,int,int); /*const*/
 Now& operator + (const Interv&);
 void DateOne(int, int, int); /*private*/
 void TimeOne(int, int, int); /*private*/
