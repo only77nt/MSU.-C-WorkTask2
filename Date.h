@@ -26,8 +26,8 @@ int year,month,day,hour,min,sec;
 
 Interv();
 Interv(char *);
-Interv& operator + (const Interv&);
-Interv& operator - (const Interv&);
+Interv& operator + (const Interv&) const;
+Interv& operator - (const Interv&) const;
 void DateTwo(int, int, int); /*private*/
 void TimeTwo(int, int, int); /*private*/
 void set(int,int,int,int,int,int); /*const*/
@@ -45,10 +45,10 @@ int year,month,day,hour,min,sec;
 Now();
 Now(char *);
 void set(int,int,int,int,int,int); /*const*/
-Now& operator + (const Interv&);
+Now& operator + (const Interv&) const;
 void DateOne(int, int, int); /*private*/
 void TimeOne(int, int, int); /*private*/
-Now& operator - (const Interv&);
+Now& operator - (const Interv&) const;
 void print() const; /*const*/
 };
 

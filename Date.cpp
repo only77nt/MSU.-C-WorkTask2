@@ -124,7 +124,7 @@ DateTwo(y,m,d);
 TimeTwo(h,min,s);
 }
 
-Interv& Interv::operator + (const Interv& NewInt) { /*Int+Int=Int*/
+Interv& Interv::operator + (const Interv& NewInt) const { /*Int+Int=Int*/
 int y=year,m=month,d=day,h=hour,min1=min,s=sec;
 	y+=NewInt.year;
 	m+=NewInt.month; 
@@ -138,7 +138,7 @@ int y=year,m=month,d=day,h=hour,min1=min,s=sec;
 	return IntRes;
 }
 
-Interv& Interv::operator - (const Interv& NewInt) { /*Int-Int=Int*/
+Interv& Interv::operator - (const Interv& NewInt) const { /*Int-Int=Int*/
 int y1=year,m1=month,d1=day,h1=hour,min1=min,s1=sec;
 int y2=NewInt.year,m2=NewInt.month,d2=NewInt.day,h2=NewInt.hour,min2=NewInt.min,s2=NewInt.sec; 
 int swap;
@@ -329,7 +329,7 @@ this->min=min1;
 this->sec=s;
 }
 
-Now& Now::operator + (const Interv& NewInt) { /*Mom+Int=Mom*/
+Now& Now::operator + (const Interv& NewInt) const { /*Mom+Int=Mom*/
 int y=year,m=month,d=day,h=hour,min1=min,s=sec;
 	y+=NewInt.year;
 	m+=NewInt.month; 
@@ -377,7 +377,7 @@ try {
 catch(Excpt& e) {throw;}
 }
 
-Now& Now::operator - (const Interv& NewInt) { /*Mom-Int=Mom*/
+Now& Now::operator - (const Interv& NewInt) const { /*Mom-Int=Mom*/
 int y1=year,m1=month,d1=day,h1=hour,min1=min,s1=sec;
 int y2=NewInt.year,m2=NewInt.month,d2=NewInt.day,h2=NewInt.hour,min2=NewInt.min,s2=NewInt.sec; 
 int swap;
